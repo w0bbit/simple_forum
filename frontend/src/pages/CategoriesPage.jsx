@@ -2,7 +2,7 @@ import {Link} from "react-router-dom"
 import AddCategory from "../components/AddCategory"
 import UpdateCategory from "../components/UpdateCategory"
 
-export default function HomePage({categories, titleInput, setTitleInput, createCategory, updateCategory, deleteCategory}) {
+export default function CategoriesPage({categories, titleInput, setTitleInput, createCategory, updateCategory, deleteCategory}) {
     return(
         <>
             <div style={{border: '3px solid black'}}>

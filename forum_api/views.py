@@ -18,8 +18,8 @@ def categories_list(request):
         try:
             categories = [{'title': category.title, 'id': category.id} for category in Category.objects.all()]
             return JsonResponse({'success': True, 'categories': categories})
-        except:
-            return JsonResponse({'success': False})
+        except Exception as error:
+            return JsonResponse({'success': False, 'error': error})
     elif request.method == 'POST':
         try:
             new_category = Category(title=request.data['title'])
@@ -62,12 +62,10 @@ def category_by_id(request, category_id):
 
 @api_view(['GET'])
 def posts_list(request):
-    '''
-        GET: Returns a list of all posts
-    '''
+    '''GET: Returns a list of all posts'''
     if request.method == 'GET':
         try:
-            posts = [post.title for post in Post.objects.all()]
+            posts = [{'id': post.id, 'title': post.title, 'content': post.content} for post in Post.objects.all()]
             return JsonResponse({'success': True, 'posts': posts})
         except Exception as error:
             return JsonResponse({'success': False, 'error': error})
@@ -75,18 +73,33 @@ def posts_list(request):
         return JsonResponse({'success': False, 'error': 'incorrect http method'})
 
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def post_by_id(request, post_id):
     '''
         GET: Return a specific post by id
         PUT: Update a specific post by id
     '''
     if request.method == 'GET':
-        post = Post.objects.get(id=post_id)
-        return JsonResponse({'success': True, 'post_id': post.id, 'post_title': post.title, 'post_content': post.content, 'post_category': post.category.title})
+        try:
+            post = Post.objects.get(id=post_id)
+            return JsonResponse({'success': True, 'id': post.id, 'title': post.title, 'content': post.content})
+        except Exception as error:
+            return JsonResponse({'success': False, 'error': error})
     elif request.method == 'PUT':
         try:
-            pass
+            post = Post.objects.get(id=post_id)
+            post.title = request.data['title']
+            post.content = request.data['content']
+            post.save()
+            print(request.data)
+            return JsonResponse({'success': True})
+        except Exception as error:
+            return JsonResponse({'success': False, 'error': error})
+    elif request.method == 'DELETE':
+        try:
+            Post.objects.get(id=post_id).delete()
+            print(request.data)
+            return JsonResponse({'success': True})
         except Exception as error:
             return JsonResponse({'success': False, 'error': error})
     else:
@@ -100,11 +113,14 @@ def posts_by_category(request, category_id):
         POST: Create a new post for a specific category
     '''
     if request.method == 'GET':
-        posts = [post.title for post in Post.objects.all() if post.category.id == category_id]
+        posts = [{'id': post.id, 'title': post.title, 'content': post.content} for post in Post.objects.all() if post.category.id == category_id]
+        # posts = [{'id': post.id, 'title': post.title, 'content': post.content} for post in Category.objects.get(id=category_id).posts]
         return JsonResponse({'success': True, 'posts': posts})
     elif request.method == 'POST':
         try:
-            pass
+            post = Post(title=request.data['title'], content=request.data['content'], category=Category.objects.get(id=category_id))
+            post.save()
+            return JsonResponse({'success': True})
         except Exception as error:
             return JsonResponse({'success': False, 'error': error})
     else:
@@ -113,14 +129,10 @@ def posts_by_category(request, category_id):
 
 @api_view(['GET'])
 def posts_by_id_and_category(request, category_id, post_id):
-    '''
-        GET: Returns a specific post for a specific category
-    '''
+    '''GET: Returns a specific post for a specific category '''
     if request.method == 'GET':
         try:
-            # category = Category.objects.get(id=category_id)
             post = Post.objects.get(id=post_id)
-            # post = [post for post in Category.objects.get(id=category_id).posts.all() if post.id == post_id]
             return JsonResponse({'success': True, 'post_id': post.id, 'post_title': post.title, 'post_content': post.content, 'post_category': post.category.title})
         except Exception as error:
             return JsonResponse({'success': False, 'error': error})
