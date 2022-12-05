@@ -25,7 +25,7 @@ export default function CategoryPage({getAllCategories, categories, createPost, 
     return(
         <>
             <div className='category' >
-                {posts.length > 0 ? <h2>Posts under {category.title}:</h2> : <h2>There are no posts under {category.title}</h2>}
+                {posts.length > 0 ? <h2>Posts under {category.title}:</h2> : <h2>There are no posts under <Link to={'/categories/'+category_id+'/'}>{category.title}</Link></h2>}
                 {posts.map(post => <Link to={'/categories/'+category_id+'/posts/'+post.id}><h3>{post.title}</h3></Link>)}
                 <hr />
                 <AddPost getPosts={getPosts} getAllCategories={getAllCategories} createPost={createPost} setPostTitle={setPostTitle} setPostContent={setPostContent} />

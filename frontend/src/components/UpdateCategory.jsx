@@ -5,12 +5,12 @@ export default function UpdateCategory({getAllCategories, setCategory, category,
             <h3>Edit Category</h3>
             <input className='input' type='text' id='new-title' placeholder={category.title} value={titleInput} onChange={(event)=>{
                 setTitleInput(event.target.value)
-                }}/>
+                }}/>&nbsp;
             <button className='button' onClick={() => {
                 updateCategory(category.id)
                 setCategory({'title':document.getElementById('new-title').value})
                 getAllCategories()
-                }}>Update</button>
+                }}>Update</button>&nbsp;
             <button className='button' onClick={() => {
                 deleteCategory(category.id)
                 getAllCategories()

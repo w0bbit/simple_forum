@@ -16,13 +16,12 @@ export default function UpdatePost({post, BASE_URL, getPost, getPosts}) {
     return(
         <>
           <div className='update-post'>
-            <input className='input' type='text' placeholder={post.title} value={postTitle} onChange={(event)=>{setPostTitle(event.target.value)}}/>&nbsp;
-            <input className='input' type='text' placeholder={post.content} value={postContent} onChange={(event)=>{setPostContent(event.target.value)}}/>&nbsp;
+            <input id='update-post-title' className='input' type='text' placeholder={post.title} value={postTitle} onChange={(event)=>{setPostTitle(event.target.value)}}/>&nbsp;
+            <input id='update-post-content' className='input' type='text' placeholder={post.content} value={postContent} onChange={(event)=>{setPostContent(event.target.value)}}/>&nbsp;
             <button className='button' onClick={() => {
                 updatePost(post.id)
                 getPost()
                 getPosts()
-                console.log('hi')
                 }}>Update</button>
           </div>
         </>

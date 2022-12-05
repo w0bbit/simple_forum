@@ -82,7 +82,7 @@ def post_by_id(request, post_id):
     if request.method == 'GET':
         try:
             post = Post.objects.get(id=post_id)
-            return JsonResponse({'success': True, 'id': post.id, 'title': post.title, 'content': post.content})
+            return JsonResponse({'success': True, 'id': post.id, 'title': post.title, 'content': post.content, 'category_id': post.category.id})
         except Exception as error:
             return JsonResponse({'success': False, 'error': error})
     elif request.method == 'PUT':

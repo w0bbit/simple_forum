@@ -90,3 +90,8 @@ a {
 a:hover {
   color: white;
 }
+
+.return {
+  text-align: right;
+  color: rgb(203, 203, 203);
+}
