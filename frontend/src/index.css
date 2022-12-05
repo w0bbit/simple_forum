@@ -37,7 +37,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+button, input {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -56,15 +56,37 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.posts, .categories, .category, .post {
+  border: 1px solid rgb(203, 203, 203);
+  border-radius: 20px;
+  color: rgb(203, 203, 203);
+  padding: 10px;
+}
+
+.post {
+  text-align: left;
+  color: rgb(203, 203, 203);
+}
+
+
+.add-category, .update-category, .add-post, .update-post {
+  color: rgb(203, 203, 203);
+}
+
+.input, .button {
+  border: 1px solid rgb(203, 203, 203);
+  color: rgb(203, 203, 203);
+}
+
+.input:hover, .button:hover {
+  color: white;
+  border: 1px solid white;
+}
+
+a {
+  color: rgb(203, 203, 203);
+}
+
+a:hover {
+  color: white;
 }

@@ -1,16 +1,15 @@
-export default function AddCategory({titleInput, setTitleInput, createCategory}) {
+export default function AddCategory({getAllCategories, titleInput, setTitleInput, createCategory}) {
     return(
         <>
-        <div style={{border: '3px solid black'}}>
-            <h3>Add a category</h3>      
-            <div>  
-            <label>Title
-                <input type='text'  placeholder='Title' value={titleInput}  onChange={(event)=>{setTitleInput(event.target.value)}} />
-            </label>
-            <button onClick={()=>{createCategory()}}>Add new category</button>
+            <div className='add-category' > 
+                <div>  
+                <input className='input' type='text'  placeholder='Title' value={titleInput}  onChange={(event)=>{setTitleInput(event.target.value)}} />&nbsp;
+                <button className='button' onClick={()=>{
+                    createCategory()
+                    getAllCategories()
+                    }}>Add new category</button>
+                </div>
             </div>
-        </div>
-        <hr />
         </>
     )
 }

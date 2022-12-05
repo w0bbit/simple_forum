@@ -1,14 +1,21 @@
-export default function UpdateCategory({categories, titleInput, setTitleInput, updateCategory, deleteCategory}) {
+export default function UpdateCategory({getAllCategories, setCategory, category, titleInput, setTitleInput, updateCategory, deleteCategory}) {
+    
     return(
-        <div style={{border: '3px solid black'}}>
-            <h2>Update category</h2>
-            <hr/>
-            {categories && categories.map(category => {
-            return(<div>
-                <input type='text' placeholder={category.title} value={titleInput} onChange={(event)=>{setTitleInput(event.target.value)}}/>
-                <button onClick={() => updateCategory(category.id)}>Update</button>
-                <button onClick={() => deleteCategory(category.id)}>Delete</button>
-                </div>)})}
+        <div className='update-category'>
+            <h3>Edit Category</h3>
+            <input className='input' type='text' id='new-title' placeholder={category.title} value={titleInput} onChange={(event)=>{
+                setTitleInput(event.target.value)
+                }}/>
+            <button className='button' onClick={() => {
+                updateCategory(category.id)
+                setCategory({'title':document.getElementById('new-title').value})
+                getAllCategories()
+                }}>Update</button>
+            <button className='button' onClick={() => {
+                deleteCategory(category.id)
+                getAllCategories()
+                window.location.href="/"
+                }}>Delete</button>
         </div>
     )
 }

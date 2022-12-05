@@ -1,19 +1,17 @@
 import {Link} from "react-router-dom"
 import AddCategory from "../components/AddCategory"
-import UpdateCategory from "../components/UpdateCategory"
 
-export default function CategoriesPage({categories, titleInput, setTitleInput, createCategory, updateCategory, deleteCategory}) {
+export default function CategoriesPage({getAllCategories, categories, titleInput, setTitleInput, createCategory}) {
     return(
         <>
-            <div style={{border: '3px solid black'}}>
+            <div className='categories' >
                 <h2>All Categories</h2>
                 <hr/>
                 {categories && categories.map(category => <Link to={'/categories/'+category.id}><h3>{category.title}</h3></Link>)}
+            <hr />
+            <AddCategory getAllCategories={getAllCategories} titleInput={titleInput} setTitleInput={setTitleInput} createCategory={createCategory} />
+
             </div>
-
-            <AddCategory titleInput={titleInput} setTitleInput={setTitleInput} createCategory={createCategory} />
-
-            <UpdateCategory categories={categories} titleInput={titleInput} setTitleInput={setTitleInput} updateCategory={updateCategory} deleteCategory={deleteCategory} />
         </>
     )
 }

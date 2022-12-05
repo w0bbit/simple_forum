@@ -41,7 +41,7 @@ def category_by_id(request, category_id):
     """
     if request.method == 'GET':
         category = Category.objects.get(id=category_id)
-        return JsonResponse({'success': True, 'category_id': category.id, 'category_title': category.title})
+        return JsonResponse({'success': True, 'id': category.id, 'title': category.title})
     elif request.method == 'PUT':
         try:
             category = Category.objects.get(id=request.data['id'])

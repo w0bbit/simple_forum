@@ -26,12 +26,12 @@ axios.defaults.headers.common["X-CSRFToken"]=csrftoken
 export default function App() {
 
   const [categories, setCategories] = useState([])
-  // const [categoryID, setCategoryID] = useState(null)
   const [titleInput, setTitleInput] = useState('')
   const [postTitle, setPostTitle] = useState('')
   const [postContent, setPostContent] = useState('')
+  const [posts, setPosts] = useState([])
 
-  const BASE_URL = 'http://127.0.0.1:8000/forum_api/'
+  const BASE_URL = 'http://127.0.0.1:8000/'
 
   const getAllCategories = () => {
     axios.get(BASE_URL+'categories/').then(response =>{
@@ -47,9 +47,7 @@ export default function App() {
 
   const updateCategory = (id) => {
     axios.put(BASE_URL+'categories/'+id+'/' , {'title': titleInput, 'id': id})
-    .then( response => {
-      console.log(response.data)
-    }).then(
+    .then(
       getAllCategories()
     )}
 
@@ -62,44 +60,49 @@ export default function App() {
   const createPost = (id) => {
     axios.post(BASE_URL+'categories/'+id+'/posts/', {'title': postTitle, 'content': postContent})
     .then(response => {
-      console.log(response.data)
+      return response
     })
   }
 
   const updatePost = (id) => {
     axios.put(BASE_URL+'posts/'+id+'/', {'title': postTitle, 'content': postContent})
     .then(response => {
-      console.log(response.data)
+      return response.data
     })
   }
 
-  const deletePost = (id) => {
-    axios.delete(BASE_URL+'posts/'+id+'/')
-    .then(response => {
-      console.log(response.data)
+  const getPosts = () => {
+    axios.get(BASE_URL+'posts/')
+    .then((response) => {
+        setPosts(response.data.posts)
     })
-
   }
 
   useEffect(() => {
     getAllCategories()
   }, [])
 
+  useEffect(() => {
+    getPosts()
+  }, [])
+
   return (
     <div className='App'>
 
       <Router>
-        <Link to="/"><h1>Home</h1></Link>
-        {/* <Link to="/categories"><h1>All Categories</h1></Link> */}
-        <Link to="/posts"><h1>All Posts</h1></Link>
-        <hr />
+        <h1><Link to="/">All Categories</Link>&nbsp;|&nbsp;<Link to="/posts">All Posts</Link></h1>
         <Routes>
-          <Route path='/' element={<CategoriesPage categories={categories} titleInput={titleInput} setTitleInput={setTitleInput} createCategory={createCategory} updateCategory={updateCategory} deleteCategory={deleteCategory} />} />
-          {/* <Route path='/categories' element={<CategoriesPage />} /> */}
-          <Route path='/categories/:category_id' element={<CategoryPage categories={categories} createPost={createPost} setPostContent={setPostContent} setPostTitle={setPostTitle} />} />
-          <Route path ='/posts' element={<PostsPage BASE_URL={BASE_URL} />} />
-          <Route path='/posts/:post_id' element={<PostPage BASE_URL={BASE_URL} updatePost={updatePost} setPostTitle={setPostTitle} setPostContent={setPostContent} deletePost={deletePost} />} />
+
+          <Route path='/' element={<CategoriesPage getAllCategories={getAllCategories} categories={categories} titleInput={titleInput} setTitleInput={setTitleInput} createCategory={createCategory} updateCategory={updateCategory} deleteCategory={deleteCategory} />} />
+
+          <Route path='/categories/:category_id' element={<CategoryPage getAllCategories={getAllCategories} categories={categories} createPost={createPost} setPostContent={setPostContent} setPostTitle={setPostTitle} updateCategory={updateCategory} deleteCategory={deleteCategory} titleInput={titleInput} setTitleInput={setTitleInput} />} />
+          
+          <Route path ='/posts' element={<PostsPage BASE_URL={BASE_URL} getPosts={getPosts} posts={posts} />} />
+          
+          <Route path='/posts/:post_id' element={<PostPage BASE_URL={BASE_URL} categories={categories} getPosts={getPosts} updatePost={updatePost} setPostTitle={setPostTitle} setPostContent={setPostContent} />} />
+          
           <Route path='/categories/:category_id/posts/:post_id' element={<PostPage BASE_URL={BASE_URL} />} />
+
         </Routes>
       </Router>
       
