@@ -1,6 +1,5 @@
 # Simple Forum App
 
-Add/Edit/Delete Forum Topics
-Add/Edit/Delete Forum Posts
+Add/edit/delete forum topics and posts
 
 Demo video: https://youtu.be/EcndijgahKA
